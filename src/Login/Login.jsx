@@ -4,8 +4,17 @@ import { FaGoogle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../Context/AuthProvider/AuthProvider";
 const Login = () => {
-  const { googleLogin } = useContext(AuthContext);
+  const { googleLogin, signIn } = useContext(AuthContext);
   const googleProvider = new GoogleAuthProvider();
+
+  const handleSignIn = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    signIn(email, password);
+    form.reset();
+  };
 
   const handleGoogleSignIn = () => {
     googleLogin(googleProvider)
@@ -24,7 +33,10 @@ const Login = () => {
         <div className="mb-8 text-center">
           <h1 className="my-3 text-4xl font-bold">Sign in</h1>
         </div>
-        <form className="space-y-12 ng-untouched ng-pristine ng-valid">
+        <form
+          onSubmit={handleSignIn}
+          className="space-y-12 ng-untouched ng-pristine ng-valid"
+        >
           <div className="space-y-4">
             <div>
               <label for="email" className="block mb-2 text-sm font-medium">
@@ -50,14 +62,14 @@ const Login = () => {
                 name="password"
                 id="password"
                 placeholder="Enter password"
-                className="w-full px-3 py-2 border rounded-md dark:border-gray-700 dark:bg-white dark:text-gray-100"
+                className="w-full px-3 py-2 border rounded-md dark:border-gray-700 dark:bg-white dark:text-gray-900"
               />
             </div>
           </div>
           <div className="space-y-2">
             <div>
               <button
-                type="button"
+                type="submit"
                 className="w-full px-8 py-3 font-semibold rounded-md bg-blue-500 dark:text-white"
               >
                 Sign in

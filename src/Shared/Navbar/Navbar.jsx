@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AuthContext } from "../../Context/AuthProvider/AuthProvider";
 
 const Navbar = () => {
+  const { user } = useContext(AuthContext);
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
@@ -43,6 +45,9 @@ const Navbar = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
+            <a href="/">Home</a>
+          </li>
+          <li>
             <a href="/">Media</a>
           </li>
           <li>
@@ -54,12 +59,23 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="navbar-end">
-        <a href="/login" className="btn mr-2">
-          Login
-        </a>
-        <a href="/register" className="btn">
-          Register
-        </a>
+        {user?.email ? (
+          <>
+            <p className="mr-2">{user?.displayName}</p>
+            <a href="/login" className="btn mr-2">
+              Sign Out
+            </a>
+          </>
+        ) : (
+          <>
+            <a href="/login" className="btn mr-2">
+              Login
+            </a>
+            <a href="/register" className="btn">
+              Register
+            </a>
+          </>
+        )}
       </div>
     </div>
   );

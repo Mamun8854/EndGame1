@@ -1,9 +1,10 @@
 import React from "react";
+import Posts from "./Posts/Posts";
 
 const Home = () => {
   return (
     <section>
-      <h2>hello</h2>
+      <Posts></Posts>
     </section>
   );
 };
