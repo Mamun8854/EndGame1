@@ -1,10 +1,17 @@
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../../Context/AuthProvider/AuthProvider";
 
 const Navbar = () => {
-  const { user } = useContext(AuthContext);
+  const { user, logOut } = useContext(AuthContext);
+
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {})
+      .catch((error) => console.error(error));
+  };
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-base-100  px-4 py-5 sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 mx-auto">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -28,7 +35,7 @@ const Navbar = () => {
             className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <a href="/">Media</a>
+              <Link to="/media">Media</Link>
             </li>
             <li>
               <a href="/">Message</a>
@@ -38,8 +45,8 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        <a href="/" className="btn btn-ghost normal-case text-xl">
-          EndGame1
+        <a href="/" className="text-xl font-bold">
+          End<span className="text-teal-600">Game</span>1
         </a>
       </div>
       <div className="navbar-center hidden lg:flex">
@@ -48,7 +55,7 @@ const Navbar = () => {
             <a href="/">Home</a>
           </li>
           <li>
-            <a href="/">Media</a>
+            <Link to="/media">Media</Link>
           </li>
           <li>
             <a href="/">Message</a>
@@ -59,10 +66,10 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="navbar-end">
-        {user?.email ? (
+        {user?.uid ? (
           <>
             <p className="mr-2">{user?.displayName}</p>
-            <a href="/login" className="btn mr-2">
+            <a href="/login" className="btn mr-2" onClick={handleLogOut}>
               Sign Out
             </a>
           </>

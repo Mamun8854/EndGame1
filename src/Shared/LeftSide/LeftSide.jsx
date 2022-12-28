@@ -13,7 +13,7 @@ const LeftSide = () => {
       <Link to="/" className="hover:text-blue-600">
         About
       </Link>
-      <Link to="/" className="hover:text-blue-600">
+      <Link to="/addPost" className="hover:text-blue-600">
         Add New Post
       </Link>
     </div>

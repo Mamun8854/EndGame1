@@ -2,10 +2,18 @@ import React from "react";
 import { FcLike } from "react-icons/fc";
 import { Link } from "react-router-dom";
 const PostCard = ({ post }) => {
-  console.log(post);
-  const { description, image, userEmail, userImage, userName, _id } = post;
+  const {
+    description,
+    image,
+    userEmail,
+    userImage,
+    userName,
+    _id,
+    date,
+    time,
+  } = post;
   return (
-    <div className="flex flex-col max-w-lg p-6 space-y-6 overflow-hidden rounded-lg shadow-md dark:bg-gray-100 dark:text-gray-900">
+    <section className="flex flex-col max-w-lg p-6 space-y-6 overflow-hidden rounded-lg shadow-md dark:bg-gray-100 dark:text-gray-900 w-[512px] h-[664px]">
       <div className="flex space-x-4">
         <img
           alt=""
@@ -20,7 +28,10 @@ const PostCard = ({ post }) => {
           >
             {userName}
           </a>
-          <span className="text-xs dark:text-gray-400">{userEmail}</span>
+          <small>
+            <span className="text-xs dark:text-gray-400 mr-2">{date}</span>
+            <span className="text-xs dark:text-gray-400">{time}</span>
+          </small>
         </div>
       </div>
       <div>
@@ -55,7 +66,7 @@ const PostCard = ({ post }) => {
           </button>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

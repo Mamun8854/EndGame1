@@ -5,6 +5,7 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signOut,
   updateProfile,
 } from "firebase/auth";
 import app from "../../firebase/firebase.init";
@@ -40,6 +41,11 @@ const AuthProvider = ({ children }) => {
       });
   };
 
+  // Sign Out user
+  const logOut = () => {
+    return signOut(auth);
+  };
+
   //   update profile
   const updateUserProfile = (profile) => {
     return updateProfile(auth.currentUser, profile);
@@ -57,6 +63,7 @@ const AuthProvider = ({ children }) => {
     registerUser,
     googleLogin,
     signIn,
+    logOut,
     updateUserProfile,
     user,
     Loading,

@@ -1,11 +1,21 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../Context/AuthProvider/AuthProvider";
 
 const PostInput = () => {
   const { user } = useContext(AuthContext);
-  console.log(user);
+  // console.log(user);
+
+  const current = new Date();
+  const time = current.toLocaleTimeString("en-US");
+
+  const date = `${current.getDate()}/${
+    current.getMonth() + 1
+  }/${current.getFullYear()}`;
+
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -27,13 +37,15 @@ const PostInput = () => {
     })
       .then((res) => res.json())
       .then((imageData) => {
-        console.log(imageData);
+        // console.log(imageData);
         const PostInfo = {
           userName: user?.displayName,
           userImage: user?.photoURL,
           userEmail: user?.email,
           description: event.target.description.value,
           image: imageData?.data?.url,
+          date: date,
+          time: time,
         };
 
         // save doctors info to db
@@ -46,9 +58,10 @@ const PostInput = () => {
         })
           .then((res) => res.json())
           .then((data) => {
-            console.log(data);
+            // console.log(data);
             toast.success(`Successfully post`);
             event.target.reset();
+            navigate("/media");
           });
       });
   };
@@ -92,12 +105,27 @@ const PostInput = () => {
             )}
           </p>
         </div>
+        {user ? (
+          <button type="submit" className="btn btn-accent mt-5 w-1/5 font-bold">
+            Add Post
+          </button>
+        ) : (
+          <a href="#my-modal-2" className="btn btn-accent mt-5 w-1/5 font-bold">
+            Add Post
+          </a>
+        )}
 
-        <input
-          className="btn btn-accent mt-5 w-1/5"
-          value="Add Post"
-          type="submit"
-        />
+        <div className="modal" id="my-modal-2">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">You want to add a post ??</h3>
+            <p className="py-4">Please Login First and then add your post.</p>
+            <div className="modal-action">
+              <Link to="/login" className="btn">
+                Login
+              </Link>
+            </div>
+          </div>
+        </div>
       </form>
     </section>
   );

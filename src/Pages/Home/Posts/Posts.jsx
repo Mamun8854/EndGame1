@@ -12,11 +12,11 @@ const Posts = () => {
       });
   }, []);
 
-  console.log(posts);
   return (
     <div>
       <h2 className="text-3xl font-bold text-center py-4">All Posts</h2>
-      <div className="flex flex-col gap-4">
+
+      <div className="flex flex-col gap-4 items-center">
         {posts?.map((post) => (
           <PostCard post={post} key={post?._id}></PostCard>
         ))}

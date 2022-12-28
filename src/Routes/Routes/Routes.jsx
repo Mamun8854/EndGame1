@@ -4,6 +4,7 @@ import Login from "../../Login/Login";
 import Home from "../../Pages/Home/Home";
 import PostInput from "../../Pages/Home/PostInput/PostInput";
 import PostDetails from "../../Pages/Home/Posts/PostDetails/PostDetails";
+import Posts from "../../Pages/Home/Posts/Posts";
 import Register from "../../Register/Register";
 
 export const routes = createBrowserRouter([
@@ -22,6 +23,7 @@ export const routes = createBrowserRouter([
           return fetch(`http://localhost:5000/post/${params.id}`);
         },
       },
+      { path: "/media", element: <Posts></Posts> },
     ],
   },
 ]);
