@@ -14,7 +14,7 @@ const Posts = () => {
 
   return (
     <div>
-      <h2 className="text-3xl font-bold text-center py-4">All Posts</h2>
+      <h2 className="text-3xl font-bold text-center pb-10">All Posts</h2>
 
       <div className="flex flex-col gap-4 items-center">
         {posts?.map((post) => (

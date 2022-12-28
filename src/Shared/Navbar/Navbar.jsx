@@ -10,8 +10,9 @@ const Navbar = () => {
       .then(() => {})
       .catch((error) => console.error(error));
   };
+  // className="px-4 py-5 sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 mx-auto "
   return (
-    <div className="navbar bg-base-100  px-4 py-5 sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 mx-auto">
+    <div className="navbar bg-base-100 fixed top-0 z-50">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -32,7 +33,7 @@ const Navbar = () => {
           </label>
           <ul
             tabIndex={0}
-            className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+            className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 font-semibold"
           >
             <li>
               <Link to="/media">Media</Link>
@@ -43,14 +44,31 @@ const Navbar = () => {
             <li>
               <a href="/">About</a>
             </li>
+            {user?.uid ? (
+              <>
+                <p className="mb-2">{user?.displayName}</p>
+                <a href="/login" className="btn mr-2" onClick={handleLogOut}>
+                  Sign Out
+                </a>
+              </>
+            ) : (
+              <>
+                <a href="/login" className="btn mb-2">
+                  Login
+                </a>
+                <a href="/register" className="btn">
+                  Register
+                </a>
+              </>
+            )}
           </ul>
         </div>
         <a href="/" className="text-xl font-bold">
           End<span className="text-teal-600">Game</span>1
         </a>
       </div>
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
+      <div className="navbar-end hidden lg:flex">
+        <ul className="menu menu-horizontal px-1 font-semibold">
           <li>
             <a href="/">Home</a>
           </li>
@@ -65,24 +83,26 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
-      <div className="navbar-end">
-        {user?.uid ? (
-          <>
-            <p className="mr-2">{user?.displayName}</p>
-            <a href="/login" className="btn mr-2" onClick={handleLogOut}>
-              Sign Out
-            </a>
-          </>
-        ) : (
-          <>
-            <a href="/login" className="btn mr-2">
-              Login
-            </a>
-            <a href="/register" className="btn">
-              Register
-            </a>
-          </>
-        )}
+      <div className="navbar-end ">
+        <div className="lg:block hidden">
+          {user?.uid ? (
+            <>
+              <p className="mr-2">{user?.displayName}</p>
+              <a href="/login" className="btn mr-2" onClick={handleLogOut}>
+                Sign Out
+              </a>
+            </>
+          ) : (
+            <>
+              <a href="/login" className="btn mr-2">
+                Login
+              </a>
+              <a href="/register" className="btn">
+                Register
+              </a>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

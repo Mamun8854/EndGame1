@@ -1,12 +1,17 @@
 import { GoogleAuthProvider } from "firebase/auth";
 import React, { useContext } from "react";
 import { FaGoogle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../Context/AuthProvider/AuthProvider";
 const Login = () => {
-  const { googleLogin, signIn } = useContext(AuthContext);
+  const { googleLogin, signIn, user } = useContext(AuthContext);
   const googleProvider = new GoogleAuthProvider();
 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
+  // sign in with email password
   const handleSignIn = (event) => {
     event.preventDefault();
     const form = event.target;
@@ -15,6 +20,8 @@ const Login = () => {
     signIn(email, password);
     form.reset();
   };
+
+  // sign in with google
 
   const handleGoogleSignIn = () => {
     googleLogin(googleProvider)
@@ -27,6 +34,9 @@ const Login = () => {
       });
   };
 
+  if (user) {
+    navigate(from, { replace: true });
+  }
   return (
     <section className="flex justify-center items-center">
       <div className="flex flex-col max-w-md p-6 rounded-md sm:p-10 dark:bg-gray-100 dark:text-gray-900  w-full">

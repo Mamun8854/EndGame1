@@ -72,11 +72,19 @@ const PostDetails = () => {
 
         {/* comment section start */}
 
-        <h2 className="py-5 font-bold text-3xl text-center">Comments</h2>
-        <section className="mt-50 bg-base-100 shadow-xl py-10 px-4 rounded grid lg:grid-cols-2 gap-4">
-          {data?.map((d) => (
-            <AllComment key={d?._id} d={d}></AllComment>
-          ))}
+        <section>
+          {data?.length > 0 ? (
+            <>
+              <h2 className="py-5 font-bold text-3xl text-center">Comments</h2>
+              <section className="mt-50 bg-base-100 shadow-xl py-10 px-4 rounded grid lg:grid-cols-2 gap-4">
+                {data?.map((d) => (
+                  <AllComment key={d?._id} d={d}></AllComment>
+                ))}
+              </section>
+            </>
+          ) : (
+            ""
+          )}
         </section>
 
         {/* comment section end */}
