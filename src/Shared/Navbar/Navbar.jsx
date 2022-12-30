@@ -42,7 +42,7 @@ const Navbar = () => {
               <a href="/">Message</a>
             </li>
             <li>
-              <a href="/">About</a>
+              <Link to="/about">About</Link>
             </li>
             {user?.uid ? (
               <>
@@ -79,7 +79,7 @@ const Navbar = () => {
             <a href="/">Message</a>
           </li>
           <li>
-            <a href="/">About</a>
+            <Link to="/about">About</Link>
           </li>
         </ul>
       </div>

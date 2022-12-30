@@ -46,6 +46,7 @@ const PostInput = () => {
           image: imageData?.data?.url,
           date: date,
           time: time,
+          currentReact: 0,
         };
 
         // save doctors info to db
@@ -69,41 +70,43 @@ const PostInput = () => {
     <section>
       <form
         onSubmit={handleSubmit(handlePost)}
-        className="bg-gray-100  p-10 rounded-md flex flex-col items-center justify-center"
+        className="bg-gray-100  p-5 rounded-md flex flex-col gap-4 items-center justify-center"
       >
-        <div className="form-control w-full max-w-xs">
-          <label className="label">
-            <span className="label-text">Photo</span>
-          </label>
-          <input
-            {...register("image", { required: "Please provide your photo" })}
-            type="file"
-            className="p-10 bg-white rounded"
-          />
-          <p className="pt-2">
-            {errors.image && (
-              <p className="text-red-600 font-bold">{errors.image.message}</p>
-            )}
-          </p>
-        </div>
-        <div className="form-control w-full max-w-xs">
-          <label className="label">
-            <span className="label-text">Description</span>
-          </label>
-          <textarea
-            {...register("description", {
-              required: "Please provide description",
-            })}
-            type="text"
-            className="w-full max-w-xs p-2 rounded"
-          />
-          <p className="pt-2">
-            {errors.description && (
-              <p className="text-red-600 font-bold">
-                {errors.description.message}
-              </p>
-            )}
-          </p>
+        <div className="flex gap-4 items-center justify-center">
+          <div className="form-control w-full max-w-xs">
+            <label className="label">
+              <span className="label-text font-medium">Photo</span>
+            </label>
+            <input
+              {...register("image", { required: "Please provide your photo" })}
+              type="file"
+              className="bg-white file-input file-input-bordered w-full max-w-xs"
+            />
+            <p className="pt-2">
+              {errors.image && (
+                <p className="text-red-600 font-bold">{errors.image.message}</p>
+              )}
+            </p>
+          </div>
+          <div className="form-control w-full max-w-xs">
+            <label className="label">
+              <span className="label-text font-medium">Description</span>
+            </label>
+            <textarea
+              {...register("description", {
+                required: "Please provide description",
+              })}
+              type="text"
+              className="w-full max-w-xs p-2 rounded"
+            />
+            <p className="pt-2">
+              {errors.description && (
+                <p className="text-red-600 font-bold">
+                  {errors.description.message}
+                </p>
+              )}
+            </p>
+          </div>
         </div>
         {user ? (
           <button type="submit" className="btn btn-accent mt-5 w-1/5 font-bold">

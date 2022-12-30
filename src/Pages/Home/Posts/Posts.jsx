@@ -1,16 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../../Context/AuthProvider/AuthProvider";
 import PostCard from "./PostCard/PostCard";
 
 const Posts = () => {
   const [posts, setposts] = useState();
+  const [load, setLoad] = useState(false);
 
   useEffect(() => {
+    setLoad(true);
     fetch("http://localhost:5000/posts")
       .then((res) => res.json())
       .then((data) => {
         setposts(data);
+        setLoad(false);
       });
   }, []);
+
+  if (load) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div>

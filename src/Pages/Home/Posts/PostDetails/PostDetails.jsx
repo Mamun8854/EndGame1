@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Link, useLoaderData } from "react-router-dom";
@@ -6,17 +7,26 @@ import AllComment from "../AllComment/AllComment";
 
 const PostDetails = () => {
   const { user } = useContext(AuthContext);
-  const [data, setData] = useState();
+  // const [data, setData] = useState();
   const details = useLoaderData();
   const { description, image, userEmail, userImage, userName, _id } = details;
 
-  useEffect(() => {
-    fetch(`http://localhost:5000/comments/${_id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-      });
-  }, [_id]);
+  const { data, refetch } = useQuery({
+    queryKey: ["comments"],
+    queryFn: async () => {
+      const res = await fetch(`http://localhost:5000/comments/${_id}`);
+      const data = await res.json();
+      return data;
+    },
+  });
+  // console.log(data);
+  // useEffect(() => {
+  //   fetch(`http://localhost:5000/comments/${_id}`)
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setData(data);
+  //     });
+  // }, [_id]);
 
   // add comment function
   const handleComment = (event) => {
@@ -31,6 +41,7 @@ const PostDetails = () => {
       postId: _id,
     };
     if (user) {
+      // https://endgame1-server.vercel.app
       fetch("http://localhost:5000/comment", {
         method: "POST",
         headers: {
@@ -41,6 +52,7 @@ const PostDetails = () => {
         .then((res) => res.json())
         .then((data) => {
           toast.success("comment added");
+          refetch();
           form.reset();
         })
         .catch((error) => console.error(error.message));
@@ -58,7 +70,6 @@ const PostDetails = () => {
             <img className="w-[450px] h-[245px]" src={image} alt="Album" />
           </figure>
           <div className="card-body">
-            <h2 className="card-title">New album is released!</h2>
             <p>{description}</p>
             <div className="card-actions justify-end">
               <Link to="/">

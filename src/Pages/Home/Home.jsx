@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import HomePostCard from "./HomePostCard";
+import PostInput from "./PostInput/PostInput";
 
 const Home = () => {
   const [posts, setPosts] = useState();
@@ -12,6 +13,10 @@ const Home = () => {
   }, []);
   return (
     <section>
+      <section className="my-5">
+        <PostInput></PostInput>
+      </section>
+
       <section className="grid lg:grid-cols-2 gap-4">
         {posts?.map((post) => (
           <HomePostCard post={post} key={post._id}></HomePostCard>

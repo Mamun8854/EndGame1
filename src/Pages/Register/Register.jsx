@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
+import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../Context/AuthProvider/AuthProvider";
+import { AuthContext } from "../../Context/AuthProvider/AuthProvider";
 
 const Register = () => {
-  const { registerUser, updateUserProfile, Loading } = useContext(AuthContext);
+  const { registerUser, updateUserProfile, Loading, user } =
+    useContext(AuthContext);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -12,15 +14,45 @@ const Register = () => {
     const email = form.email.value;
     const photoURL = form.photoURL.value;
     const password = form.password.value;
+    const location = form.location.value;
     console.log(name, email, password);
 
     registerUser(email, password)
       .then((result) => {
         const user = result.user;
         console.log(user);
+        // post user data to
+        fetch("http://localhost:5000/user", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(userData),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            toast.success("user data added");
+            // refetch();
+            form.reset();
+          })
+          .catch((error) => console.error(error.message));
         handleUpdateUserProfile(name, photoURL);
       })
       .catch((err) => console.error(err));
+
+    const userData = {
+      userName: name,
+      userEmail: email,
+      userPhoto: photoURL,
+      location: location,
+      userPassword: password,
+    };
+
+    // https://endgame1-server.vercel.app
+
+    // } else {
+    //   <p>No User Found</p>;
+    // }
   };
 
   const handleUpdateUserProfile = (name, photoURL) => {
@@ -99,6 +131,23 @@ const Register = () => {
                 required
                 placeholder="Enter password"
                 className="w-full px-3 py-2 border rounded-md dark:border-gray-700 dark:bg-white dark:text-gray-900"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="location"
+                className="block mb-2 text-sm font-medium"
+              >
+                Location
+              </label>
+              <input
+                type="text"
+                name="location"
+                id="location"
+                required
+                placeholder="Enter your location"
+                className="w-full px-3 py-2 border rounded-md dark:border-gray-700 dark:bg-white dark:text-gray-100"
+                data-temp-mail-org="0"
               />
             </div>
           </div>
