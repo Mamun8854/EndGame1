@@ -21,7 +21,7 @@ export const routes = createBrowserRouter([
         path: "/post/:id",
         element: <PostDetails></PostDetails>,
         loader: ({ params }) => {
-          return fetch(`http://localhost:5000/post/${params.id}`);
+          return fetch(`https://endgame1-server.vercel.app/post/${params.id}`);
         },
       },
       { path: "/media", element: <Posts></Posts> },

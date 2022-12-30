@@ -57,7 +57,7 @@ const Login = () => {
                 name="email"
                 id="email"
                 placeholder="Enter your email"
-                className="w-full px-3 py-2 border rounded-md dark:border-gray-700 dark:bg-white dark:text-gray-100"
+                className="w-full px-3 py-2 border rounded-md dark:border-gray-700 dark:bg-white dark:text-gray-900"
                 data-temp-mail-org="0"
               />
             </div>

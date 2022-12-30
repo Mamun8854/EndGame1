@@ -51,7 +51,7 @@ const PostInput = () => {
         };
 
         // save doctors info to db
-        fetch("http://localhost:5000/post", {
+        fetch("https://endgame1-server.vercel.app/post", {
           method: "POST",
           headers: {
             "content-type": "application/json",

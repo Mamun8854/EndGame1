@@ -22,7 +22,7 @@ const Register = () => {
         const user = result.user;
         console.log(user);
         // post user data to
-        fetch("http://localhost:5000/user", {
+        fetch("https://endgame1-server.vercel.app/user", {
           method: "POST",
           headers: {
             "content-type": "application/json",
@@ -146,7 +146,7 @@ const Register = () => {
                 id="location"
                 required
                 placeholder="Enter your location"
-                className="w-full px-3 py-2 border rounded-md dark:border-gray-700 dark:bg-white dark:text-gray-100"
+                className="w-full px-3 py-2 border rounded-md dark:border-gray-700 dark:bg-white dark:text-gray-900"
                 data-temp-mail-org="0"
               />
             </div>

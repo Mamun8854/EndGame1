@@ -14,14 +14,16 @@ const PostDetails = () => {
   const { data, refetch } = useQuery({
     queryKey: ["comments"],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/comments/${_id}`);
+      const res = await fetch(
+        `https://endgame1-server.vercel.app/comments/${_id}`
+      );
       const data = await res.json();
       return data;
     },
   });
   // console.log(data);
   // useEffect(() => {
-  //   fetch(`http://localhost:5000/comments/${_id}`)
+  //   fetch(`https://endgame1-server.vercel.app/comment/${_id}`)
   //     .then((res) => res.json())
   //     .then((data) => {
   //       setData(data);
@@ -42,7 +44,7 @@ const PostDetails = () => {
     };
     if (user) {
       // https://endgame1-server.vercel.app
-      fetch("http://localhost:5000/comment", {
+      fetch("https://endgame1-server.vercel.app/comment", {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -65,13 +67,40 @@ const PostDetails = () => {
     <section>
       {/* post details section start */}
       <section className="mt-10 ">
-        <div className="card lg:card-side bg-base-100 shadow-xl py-10 px-2">
+        <div className="card lg:card-side bg-base-100 shadow-xl py-10 px-2 w-full">
           <figure>
             <img className="w-[450px] h-[245px]" src={image} alt="Album" />
           </figure>
           <div className="card-body">
-            <p>{description}</p>
-            <div className="card-actions justify-end">
+            <div>
+              <div className="mb-10">
+                <div className="flex space-x-4">
+                  <img
+                    alt=""
+                    src={userImage}
+                    className="object-cover w-12 h-12 rounded-full shadow dark:bg-gray-500"
+                  />
+                  <div className="flex flex-col space-y-1">
+                    <a
+                      rel="noopener noreferrer"
+                      href="/"
+                      className="text-sm font-semibold"
+                    >
+                      {userName}
+                    </a>
+                    <p>{userEmail}</p>
+                  </div>
+                </div>
+              </div>
+              <div>
+                {description ? (
+                  <p className="p-4 bg-gray-100 rounded">{description}</p>
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>
+            <div className="card-actions justify-center py-10">
               <Link to="/">
                 <button className="btn btn-outline btn-sm">
                   Back to home page
@@ -86,7 +115,9 @@ const PostDetails = () => {
         <section>
           {data?.length > 0 ? (
             <>
-              <h2 className="py-5 font-bold text-3xl text-center">Comments</h2>
+              <h2 className="py-5 font-bold text-3xl text-center mt-10">
+                Comments
+              </h2>
               <section className="mt-50 bg-base-100 shadow-xl py-10 px-4 rounded grid lg:grid-cols-2 gap-4">
                 {data?.map((d) => (
                   <AllComment key={d?._id} d={d}></AllComment>
@@ -108,29 +139,28 @@ const PostDetails = () => {
           Drop Your comment
         </h3>
         <div className="text-center w-2/5">
-          <form onSubmit={handleComment} className="bg-gray-100 rounded py-5">
-            <div className="flex justify-center ">
-              <label>
-                <textarea
-                  className="rounded-lg w-full mb-2 p-2 bg-white text-black font-semibold"
-                  name="text"
-                  id="text"
-                ></textarea>
-              </label>
+          <form onSubmit={handleComment} className="pb-20">
+            <div className="flex justify-between ">
+              <input
+                className="mr-2 bg-gray-400 rounded text-black font-medium px-2"
+                name="text"
+                id="text"
+              ></input>
+              <div>
+                {user ? (
+                  <button
+                    type="submit"
+                    className="btn btn-outline btn-sm bg-blue-600 text-white border-none hover:bg-blue-900 font-bold"
+                  >
+                    Comment
+                  </button>
+                ) : (
+                  <a href="#my-modal-2" className="btn btn-outline font-bold">
+                    Comment
+                  </a>
+                )}
+              </div>
             </div>
-
-            {user ? (
-              <button
-                type="submit"
-                className="btn btn-outline btn-sm bg-blue-600 text-white border-none hover:bg-blue-900 font-bold"
-              >
-                Comment
-              </button>
-            ) : (
-              <a href="#my-modal-2" className="btn btn-outline font-bold">
-                Comment
-              </a>
-            )}
             <p></p>
             <div className="modal" id="my-modal-2">
               <div className="modal-box">

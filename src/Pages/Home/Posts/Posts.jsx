@@ -8,7 +8,7 @@ const Posts = () => {
 
   useEffect(() => {
     setLoad(true);
-    fetch("http://localhost:5000/posts")
+    fetch("https://endgame1-server.vercel.app/posts")
       .then((res) => res.json())
       .then((data) => {
         setposts(data);

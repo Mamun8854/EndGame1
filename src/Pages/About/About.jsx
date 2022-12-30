@@ -8,22 +8,22 @@ const About = () => {
   const authEmail = user?.email;
   const [data, setData] = useState();
 
-  const url = `http://localhost:5000/userInfo?userEmail=${authEmail}`;
+  const url = `https://endgame1-server.vercel.app/userInfo?userEmail=${authEmail}`;
   useEffect(() => {
     fetch(url).then((res) => res.json().then((data) => setData(data)));
   }, [url]);
 
-  const { data: userInformation, refetch } = useQuery({
-    queryKey: [],
-    queryFn: async () => {
-      const res = await fetch(
-        `http://localhost:5000/userInfo?userEmail=${authEmail}`
-      );
-      const data = await res.json();
-      return data;
-    },
-  });
-  console.log(userInformation);
+  // const { data: userInformation, refetch } = useQuery({
+  //   queryKey: ["user"],
+  //   queryFn: async () => {
+  //     const res = await fetch(
+  //       `https://endgame1-server.vercel.app/userInfo?userEmail=${authEmail}`
+  //     );
+  //     const data = await res.json();
+  //     return data;
+  //   },
+  // });
+  // console.log(userInformation);
 
   // update profile function
 
@@ -41,7 +41,7 @@ const About = () => {
       userPhoto: photoURL,
       location: location,
     };
-    fetch(`http://localhost:5000/EditProfile/${data?._id}`, {
+    fetch(`https://endgame1-server.vercel.app/EditProfile/${data?._id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -53,8 +53,8 @@ const About = () => {
         if (data?.modifiedCount > 0) {
           toast.success("Profile Updated");
         }
-        refetch();
-        console.log(data);
+        // refetch();
+        // console.log(data);
       });
   };
 
