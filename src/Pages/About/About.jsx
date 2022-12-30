@@ -1,8 +1,10 @@
+import { useQuery } from "@tanstack/react-query";
 import React, { useContext, useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { AuthContext } from "../../Context/AuthProvider/AuthProvider";
 
 const About = () => {
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
   const authEmail = user?.email;
   const [data, setData] = useState();
 
@@ -11,9 +13,17 @@ const About = () => {
     fetch(url).then((res) => res.json().then((data) => setData(data)));
   }, [url]);
 
-  console.log(data);
-  // const { userName, userPhoto, userEmail, location } = data;
-  // console.log(user?.email);
+  const { data: userInformation, refetch } = useQuery({
+    queryKey: [],
+    queryFn: async () => {
+      const res = await fetch(
+        `http://localhost:5000/userInfo?userEmail=${authEmail}`
+      );
+      const data = await res.json();
+      return data;
+    },
+  });
+  console.log(userInformation);
 
   // update profile function
 
@@ -22,7 +32,7 @@ const About = () => {
     const form = event.target;
     const name = form.name.value;
     const email = form.email.value;
-    const photoURL = form.photoURL.value;
+    const photoURL = form.photo.value;
     const location = form.address.value;
 
     const userInfo = {
@@ -31,13 +41,26 @@ const About = () => {
       userPhoto: photoURL,
       location: location,
     };
-    fetch(`http://localhost:5000/EditProfile?email=${authEmail}`, {
+    fetch(`http://localhost:5000/EditProfile/${data?._id}`, {
       method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(userInfo),
     })
       .then((res) => res.json())
-      .then((data) => setData(data));
+      .then((data) => {
+        if (data?.modifiedCount > 0) {
+          toast.success("Profile Updated");
+        }
+        refetch();
+        console.log(data);
+      });
   };
 
+  if (loading) {
+    return <p>Loading...</p>;
+  }
   return (
     <section className="flex flex-col items-center justify-center mt-6">
       <h2 className="text-3xl font-bold text-center py-4">Your Profile</h2>
@@ -50,7 +73,7 @@ const About = () => {
         <div className="space-y-4 text-center divide-y divide-gray-700">
           <div className="my-2 space-y-1">
             <h2 className="text-xl font-semibold sm:text-2xl">
-              Name : {user?.displayName}
+              Name : {data?.userName}
             </h2>
             <p className="px-5 text-xs sm:text-base dark:text-gray-600">
               Email : {user?.email}
@@ -75,7 +98,7 @@ const About = () => {
 
       {/* Edit about modal start  */}
       <input type="checkbox" id="about-modal" className="modal-toggle" />
-      <div className="modal" id="about-modal">
+      <div className="modal">
         <div className="modal-box relative">
           <label
             htmlFor="about-modal"
@@ -119,11 +142,20 @@ const About = () => {
                 defaultValue={data?.location}
               />
               <br />
-              <input
+              <button className="w-full ">
+                <label
+                  htmlFor="about-modal"
+                  className="w-full bg-gradient-to-r bg-[#3A4256] uppercase text-white py-3 rounded-lg cursor-pointer mt-4"
+                  type="submit"
+                >
+                  Update
+                </label>
+              </button>
+              {/* <input
                 className="btn btn-accent w-full"
                 type="submit"
                 value="Update"
-              />
+              /> */}
             </form>
           </div>
         </div>

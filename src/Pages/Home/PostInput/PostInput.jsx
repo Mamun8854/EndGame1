@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,6 +7,7 @@ import { AuthContext } from "../../../Context/AuthProvider/AuthProvider";
 const PostInput = () => {
   const { user } = useContext(AuthContext);
   // console.log(user);
+  const [disable, setDisable] = useState(true);
 
   const current = new Date();
   const time = current.toLocaleTimeString("en-US");
@@ -66,6 +67,7 @@ const PostInput = () => {
           });
       });
   };
+
   return (
     <section>
       <form
@@ -78,7 +80,9 @@ const PostInput = () => {
               <span className="label-text font-medium">Photo</span>
             </label>
             <input
-              {...register("image", { required: "Please provide your photo" })}
+              {...register("image", {
+                required: "Please provide your photo",
+              })}
               type="file"
               className="bg-white file-input file-input-bordered w-full max-w-xs"
             />
@@ -109,7 +113,10 @@ const PostInput = () => {
           </div>
         </div>
         {user ? (
-          <button type="submit" className="btn btn-accent mt-5 w-1/5 font-bold">
+          <button
+            type="submit"
+            className="btn btn-accent mt-5 w-1/5 font-bold disabled"
+          >
             Add Post
           </button>
         ) : (
